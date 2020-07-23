@@ -2,6 +2,7 @@ package co.livil.workapi.serializers
 
 import co.livil.workapi.model.Email
 import co.livil.workapi.model.EmailAttachment
+import co.livil.workapi.model.Event
 import co.livil.workapi.model.Mailbox
 import moe.banana.jsonapi2.*
 
@@ -14,10 +15,16 @@ class EmailSerializer: BaseSerializer(typeClass = Email::class.java) {
         return adapter().fromJson(body)!!.asArrayDocument()
     }
 
+    fun serializeEmail(email: Email): String {
+        val document: ObjectDocument<Email> = ObjectDocument()
+        document.set(email)
+        return serializeDocument(document)
+    }
+
     fun serializeEmails(emails: List<Email>): String {
         val document: ArrayDocument<Email> = ArrayDocument()
         document.addAll(emails)
-        return adapter().toJson(document)
+        return serializeDocument(document)
     }
 
     override fun adapterFactory(): ResourceAdapterFactory.Builder {

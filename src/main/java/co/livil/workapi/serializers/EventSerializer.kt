@@ -1,5 +1,6 @@
 package co.livil.workapi.serializers
 
+import co.livil.workapi.model.Email
 import co.livil.workapi.model.Event
 import moe.banana.jsonapi2.*
 
@@ -10,5 +11,11 @@ class EventSerializer: BaseSerializer(typeClass = Event::class.java) {
 
     fun deserializeEvents(body: String): ArrayDocument<Event> {
         return adapter().fromJson(body)!!.asArrayDocument()
+    }
+
+    fun serializeEvent(event: Event): String {
+        val document: ObjectDocument<Event> = ObjectDocument()
+        document.set(event)
+        return serializeDocument(document)
     }
 }
