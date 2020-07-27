@@ -1,6 +1,7 @@
 package co.livil.workapi.model
 
 import android.text.Html
+import co.livil.workapi.R
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import moe.banana.jsonapi2.HasMany
@@ -20,11 +21,10 @@ data class Email(
     @field:Json(name = "flags") var flags: Flags = Flags(),
     @field:Json(name = "body") var body: EmailBody = EmailBody(),
     @field:Json(name = "labels") var labels: MutableList<String> = mutableListOf(),
-    @field:Json(name = "received_at") var receivedAt: Int = 0,
+    @field:Json(name = "received_at") var receivedAt: Long = 0,
 
     @field:Json(name = "mailboxes") var mailboxes: HasMany<Mailbox>? = HasMany(),
     @field:Json(name = "email_attachments") var emailAttachments: HasMany<EmailAttachment>? = HasMany()
-
 ) : WorkApiResource() {
     fun processBodyContent() {
         if (hasPlaintextContent()) {
