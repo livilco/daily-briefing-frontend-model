@@ -13,6 +13,7 @@ class EventSerializerTest {
     private val event: Event = Event(
         name = "Test Event Name",
         description = "Test Event Description",
+        location = "London",
         startDateTime = "2020-07-27T10:00:00Z",
         startTimezone = "UTC",
         endDateTime = "2020-07-27T11:00:00Z",
@@ -54,6 +55,7 @@ class EventSerializerTest {
             "all_day": true,
             "description": "Test Event Description",
             "created_at": "2020-07-27T05:00:00Z",
+            "location": "London",
             "start_date_time": "2020-07-27T10:00:00Z"
           },
           "id": "Og==",

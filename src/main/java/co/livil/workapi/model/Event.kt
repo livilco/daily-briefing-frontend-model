@@ -10,6 +10,7 @@ import moe.banana.jsonapi2.JsonApi
 data class Event(
     @field:Json(name = "name") var name: String = "",
     @field:Json(name = "description") var description: String = "",
+    @field:Json(name = "location") var location: String = "",
     @field:Json(name = "start_date_time") var startDateTime: String = "",
     @field:Json(name = "start_timezone") var startTimezone: String = "",
     @field:Json(name = "end_date_time") var endDateTime: String = "",
