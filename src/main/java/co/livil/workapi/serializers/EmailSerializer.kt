@@ -2,10 +2,14 @@ package co.livil.workapi.serializers
 
 import co.livil.workapi.model.Email
 import co.livil.workapi.model.EmailAttachment
-import co.livil.workapi.model.Event
 import co.livil.workapi.model.Mailbox
-import moe.banana.jsonapi2.*
+import moe.banana.jsonapi2.ArrayDocument
+import moe.banana.jsonapi2.ObjectDocument
+import moe.banana.jsonapi2.ResourceAdapterFactory
 
+/**
+ * @see EmailSerializerTest for sample JSON
+ */
 class EmailSerializer: BaseSerializer(typeClass = Email::class.java) {
     fun deserializeEmail(body: String): ObjectDocument<Email> {
         return adapter().fromJson(body)!!.asObjectDocument()

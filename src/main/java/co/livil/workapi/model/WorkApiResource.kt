@@ -17,8 +17,8 @@ import java.util.*
  * @version 0.1
  */
 open class WorkApiResource : Resource(), ListableResourceComparator {
-    private var remoteId: String = ""
-    private var integrationId = ""
+    @Transient private var remoteId: String = ""
+    @Transient private var integrationId = ""
 
     init { updateId() }
 
