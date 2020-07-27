@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
 }
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -10,11 +11,13 @@ android {
     defaultConfig {
         minSdkVersion 28
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode buildVersionCode()
+        versionName version
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        setProperty("archivesBaseName", "${archivesBaseName}-$versionName")
     }
 
     buildTypes {
