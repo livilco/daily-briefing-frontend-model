@@ -1,6 +1,7 @@
 package co.livil.workapi.model
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -13,7 +14,7 @@ class EventTest {
         val event = Event(
             startDateTime = "2020-07-01T10:00:00Z",
             endDateTime = "2020-07-01T12:00:00Z",
-            recurrence = "FREQ=WEEKLY;WKST=SU;BYDAY=WE,TH,FR"
+            recurrence = "RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=WE,TH,FR"
         )
 
         val occurrences = event.occurrences(
@@ -38,5 +39,14 @@ class EventTest {
         val fourthOccurrence = occurrences[3]
         assertEquals("2020-07-08T00:00:00", fourthOccurrence.startDateTime)
         assertEquals("2020-07-08T02:00:00", fourthOccurrence.endDateTime)
+    }
+
+    @Test
+    fun test_getRRULE() {
+        val event = Event(recurrence = "RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=WE,TH,FR")
+
+        val rrule = event.getRRULE()
+        assertNotNull(rrule)
+        assertEquals("FREQ=WEEKLY;WKST=SU;BYDAY=WE,TH,FR", rrule.toString())
     }
 }

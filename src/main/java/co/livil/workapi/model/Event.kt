@@ -5,9 +5,13 @@ import com.squareup.moshi.Json
 import moe.banana.jsonapi2.JsonApi
 import org.dmfs.rfc5545.DateTime
 import org.dmfs.rfc5545.recur.RecurrenceRule
+import org.dmfs.rfc5545.recurrenceset.RecurrenceList
+import org.dmfs.rfc5545.recurrenceset.RecurrenceRuleAdapter
+import org.dmfs.rfc5545.recurrenceset.RecurrenceSet
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.util.regex.Pattern
 
 /**
  * @see EventSerializerTest for sample JSON
@@ -41,7 +45,7 @@ data class Event(
     ): List<Event> {
         if (recurrence.isEmpty()) { return emptyList() }
 
-        val rule: RecurrenceRule = RecurrenceRule(recurrence)
+        val rule = getRRULE() ?: return emptyList()
         val start: DateTime = DateTime(from.toEpochSecond(ZoneOffset.UTC) * 1000)
 
         val iterator = rule.iterator(start)
@@ -67,5 +71,16 @@ data class Event(
         }
 
         return occurrences
+    }
+
+    fun getRRULE(): RecurrenceRule? {
+        if (recurrence.isEmpty()) { return null }
+
+        val pattern = Pattern.compile("RRULE:(.*)")
+        val matcher = pattern.matcher(recurrence)
+        if (!matcher.find()) { return null }
+
+        val ruleStr = matcher.group(1)
+        return RecurrenceRule(ruleStr)
     }
 }
