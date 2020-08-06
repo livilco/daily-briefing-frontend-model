@@ -63,6 +63,28 @@ data class Email(
 
         return processed.toMutableList()
     }
+
+    fun getToRecipientsLabel(): String {
+        return recipientsLabel(toRecipients)
+    }
+
+    fun getCcRecipientsLabel(): String {
+        return recipientsLabel(ccRecipients)
+    }
+
+    fun getBccRecipientsLabel(): String {
+        return recipientsLabel(bccRecipients)
+    }
+
+    private fun recipientsLabel(recipients: List<Recipient>): String {
+        return recipients.joinToString(", ") {
+            if (it.name.isNotEmpty()) {
+                it.name
+            } else {
+                it.address
+            }
+        } ?: ""
+    }
 }
 
 @JsonClass(generateAdapter = true)
