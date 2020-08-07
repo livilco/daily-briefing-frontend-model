@@ -1,6 +1,8 @@
 package co.livil.workapi.model
 
+import android.text.Html
 import co.livil.workapi.utils.DateHelper
+import co.livil.workapi.utils.RfcDateTimeParser
 import com.squareup.moshi.Json
 import moe.banana.jsonapi2.JsonApi
 import org.dmfs.rfc5545.DateTime
@@ -11,6 +13,7 @@ import org.dmfs.rfc5545.recurrenceset.RecurrenceSet
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
 import java.util.regex.Pattern
 
 /**
@@ -82,5 +85,56 @@ data class Event(
 
         val ruleStr = matcher.group(1)
         return RecurrenceRule(ruleStr)
+    }
+
+    fun getStartDateLabel(): String {
+        return formatDateTime(startDateTime, FRIENDLY_DATE_FORMAT)
+    }
+
+    fun getEndDateLabel(): String {
+        return formatDateTime(endDateTime, FRIENDLY_DATE_FORMAT)
+    }
+
+    fun getStartTimeLabel(): String {
+        return formatDateTime(startDateTime, FRIENDLY_TIME_FORMAT)
+    }
+
+    fun getEndTimeLabel(): String {
+        return formatDateTime(endDateTime, FRIENDLY_TIME_FORMAT)
+    }
+
+    private fun formatDateTime(datetimeStr: String, pattern: String) : String {
+        val datetime = DateHelper.fromIsoDateString(datetimeStr)
+        val formatter = DateTimeFormatter.ofPattern(pattern)
+        return datetime.format(formatter)
+    }
+
+    private fun getPlaintextDescription(): String {
+        return Html
+            .fromHtml(description, Html.FROM_HTML_MODE_COMPACT)
+            .toString()
+            .trim()
+    }
+
+    fun getSegments(): List<String> {
+        val list = mutableListOf<String>()
+
+        list.add(getPlaintextDescription())
+
+        return splitContent(list).filter { it.isNotEmpty() }
+    }
+
+    private fun splitContent(content: List<String>): MutableList<String> {
+        val processed = mutableListOf<String>()
+        content.forEach {
+            it.split("\r\n", "\n").forEach { str -> processed.add(str.trim()) }
+        }
+
+        return processed.toMutableList()
+    }
+
+    companion object {
+        const val FRIENDLY_DATE_FORMAT = "ccc dd.MM.yyyy"
+        const val FRIENDLY_TIME_FORMAT = "HH:mm"
     }
 }
