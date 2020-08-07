@@ -117,6 +117,12 @@ data class Event(
     }
 
     fun getSegments(): List<String> {
+        val map = listOf(
+            "attendees" to getAttendeesContent(),
+            "description" to getPlaintextDescription(),
+            "location" to location
+        )
+
         val list = mutableListOf<String>()
 
         list.add(getPlaintextDescription())
@@ -131,6 +137,16 @@ data class Event(
         }
 
         return processed.toMutableList()
+    }
+
+    private fun getAttendeesContent(): String {
+        return if (attendees?.isNotEmpty()!!) {
+            attendees!!.joinToString("\n") {
+                it.getLabel()
+            }
+        } else {
+            ""
+        }
     }
 
     companion object {
