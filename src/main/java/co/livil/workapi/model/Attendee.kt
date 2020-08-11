@@ -28,8 +28,8 @@ data class Attendee (
 
         return output + flags.joinToString(
             separator = ", ",
-            prefix = " (",
-            postfix = ")"
+            prefix = if (flags.isNotEmpty()) " (" else "",
+            postfix = if (flags.isNotEmpty()) ")" else ""
         )
     }
 }

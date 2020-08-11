@@ -109,25 +109,11 @@ data class Event(
         return datetime.format(formatter)
     }
 
-    private fun getPlaintextDescription(): String {
+    fun getPlaintextDescription(): String {
         return Html
             .fromHtml(description, Html.FROM_HTML_MODE_COMPACT)
             .toString()
             .trim()
-    }
-
-    fun getSegments(): List<String> {
-        val map = listOf(
-            "attendees" to getAttendeesContent(),
-            "description" to getPlaintextDescription(),
-            "location" to location
-        )
-
-        val list = mutableListOf<String>()
-
-        list.add(getPlaintextDescription())
-
-        return splitContent(list).filter { it.isNotEmpty() }
     }
 
     private fun splitContent(content: List<String>): MutableList<String> {
@@ -139,9 +125,9 @@ data class Event(
         return processed.toMutableList()
     }
 
-    private fun getAttendeesContent(): String {
+    fun getAttendeesContent(): String {
         return if (attendees?.isNotEmpty()!!) {
-            attendees!!.joinToString("\n") {
+            attendees!!.joinToString("\r\n") {
                 it.getLabel()
             }
         } else {
