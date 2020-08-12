@@ -27,10 +27,10 @@ data class Email(
     @field:Json(name = "email_attachments") var emailAttachments: HasMany<EmailAttachment>? = HasMany()
 ) : WorkApiResource() {
     fun processBodyContent() {
-        if (hasPlaintextContent()) {
-            body.segments.add(subject)
-            body.segments.add(sender.name)
+        body.segments.add(subject)
+        body.segments.add(sender.name)
 
+        if (hasPlaintextContent()) {
             splitContent(body.plainText!!)?.let { body.segments.addAll(it) }
         } else if (hasHtmlContent()) {
             strippedHtmlContent()?.let {
@@ -58,10 +58,10 @@ data class Email(
     private fun splitContent(content: List<String>): MutableList<String>? {
         val processed = mutableListOf<String>()
         content.forEach {
-            it.split("\r\n\r\n", "\n\n").forEach { str -> processed.add(str) }
+            it.split("\r\n\r\n", "\n\n").forEach { str -> processed.add(str.trim()) }
         }
 
-        return processed.toMutableList()
+        return processed.filter { it.isNotEmpty() }.toMutableList()
     }
 
     fun getToRecipientsLabel(): String {
