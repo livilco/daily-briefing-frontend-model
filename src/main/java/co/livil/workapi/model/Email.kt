@@ -51,7 +51,10 @@ data class Email(
 
     private fun strippedHtmlContent(): List<String>? {
         return body.html?.map {
-            return@map Html.fromHtml(it, Html.FROM_HTML_MODE_COMPACT).toString()
+            return@map Html
+                .fromHtml(it, Html.FROM_HTML_MODE_COMPACT)
+                .toString()
+                .replace(Regex("(?s)<!--.*?-->"), "")
         }
     }
 
