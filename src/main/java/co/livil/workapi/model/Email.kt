@@ -27,9 +27,6 @@ data class Email(
     @field:Json(name = "email_attachments") var emailAttachments: HasMany<EmailAttachment>? = HasMany()
 ) : WorkApiResource() {
     fun processBodyContent() {
-        body.segments.add(subject)
-        body.segments.add(sender.name)
-
         if (hasPlaintextContent()) {
             splitContent(body.plainText!!)?.let { body.segments.addAll(it) }
         } else if (hasHtmlContent()) {
@@ -77,6 +74,18 @@ data class Email(
 
     fun getBccRecipientsLabel(): String {
         return recipientsLabel(bccRecipients)
+    }
+
+    fun getSummary(): String {
+        return "\"$subject\" from ${getSenderLabel()}"
+    }
+
+    fun getSenderLabel(): String {
+        return if (sender.name.isNotEmpty()) {
+            sender.name
+        } else {
+            sender.address
+        }
     }
 
     private fun recipientsLabel(recipients: List<Recipient>): String {
