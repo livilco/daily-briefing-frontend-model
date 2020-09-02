@@ -95,7 +95,7 @@ data class Email(
             } else {
                 it.address
             }
-        } ?: ""
+        }
     }
 }
 
