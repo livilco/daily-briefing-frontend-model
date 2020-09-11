@@ -1,7 +1,6 @@
 package co.livil.workapi.model
 
 import android.text.Html
-import co.livil.workapi.R
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import moe.banana.jsonapi2.HasMany
@@ -25,7 +24,17 @@ data class Email(
 
     @field:Json(name = "mailboxes") var mailboxes: HasMany<Mailbox>? = HasMany(),
     @field:Json(name = "email_attachments") var emailAttachments: HasMany<EmailAttachment>? = HasMany()
-) : WorkApiResource() {
+) : WorkApiResource(), IMatchable {
+    @Transient var urgent : Boolean = false
+
+    fun subjectLabel(): String {
+        return if (urgent) {
+            "$subject [URGENT]"
+        } else {
+            subject
+        }
+    }
+
     fun processBodyContent() {
         if (hasPlaintextContent()) {
             splitContent(body.plainText!!)?.let { body.segments.addAll(it) }
@@ -96,6 +105,22 @@ data class Email(
                 it.address
             }
         }
+    }
+
+    override fun matchesAccount(account: String): Boolean {
+        // TODO("Not yet implemented")
+        return false
+    }
+
+    override fun matchesContact(contact: String): Boolean {
+        val regex = Regex.fromLiteral(contact)
+        return sender.address.matches(regex) ||
+               sender.name.matches(regex)
+    }
+
+    override fun matchesKeyword(keyword: String): Boolean {
+        val regex = Regex.fromLiteral(keyword)
+        return body.segments.any { it.matches(regex) }
     }
 }
 
