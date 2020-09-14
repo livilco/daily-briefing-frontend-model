@@ -1,7 +1,6 @@
 package co.livil.workapi.model
 
 import android.text.Html
-import co.livil.workapi.R
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import moe.banana.jsonapi2.HasMany
@@ -25,7 +24,15 @@ data class Email(
 
     @field:Json(name = "mailboxes") var mailboxes: HasMany<Mailbox>? = HasMany(),
     @field:Json(name = "email_attachments") var emailAttachments: HasMany<EmailAttachment>? = HasMany()
-) : WorkApiResource() {
+) : WorkApiResource(), IMatchable {
+    fun subjectLabel(): String {
+        return if (flags.urgent) {
+            "[URGENT] $subject"
+        } else {
+            subject
+        }
+    }
+
     fun processBodyContent() {
         if (hasPlaintextContent()) {
             splitContent(body.plainText!!)?.let { body.segments.addAll(it) }
@@ -97,10 +104,23 @@ data class Email(
             }
         }
     }
+
+    override fun matchableContactStrings(): List<String> {
+        return listOf(sender.address, sender.name)
+    }
+
+    override fun matchableKeywordStrings(): List<String> {
+        return body.segments + listOf(subject)
+    }
+
+    override fun flagUrgent(isUrgent: Boolean) {
+        flags.urgent = isUrgent
+    }
 }
 
 @JsonClass(generateAdapter = true)
 data class Flags(
+    @Json(name = "urgent") var urgent: Boolean = false,
     @Json(name = "seen") var seen: Boolean = false,
     @Json(name = "flagged") var flagged: Boolean = false
 )
