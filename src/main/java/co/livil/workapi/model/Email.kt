@@ -27,7 +27,7 @@ data class Email(
 ) : WorkApiResource(), IMatchable {
     fun subjectLabel(): String {
         return if (flags.urgent) {
-            "$subject [URGENT]"
+            "[URGENT] $subject"
         } else {
             subject
         }
