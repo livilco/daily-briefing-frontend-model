@@ -103,6 +103,10 @@ data class Event(
         return formatDateTime(endDateTime, FRIENDLY_TIME_FORMAT)
     }
 
+    fun getStartDateTimeLabel(): String {
+        return formatDateTime(startDateTime, FRIENDLY_DATE_TIME_FORMAT)
+    }
+
     private fun formatDateTime(datetimeStr: String, pattern: String) : String {
         val datetime = DateHelper.fromIsoDateString(datetimeStr)
         val formatter = DateTimeFormatter.ofPattern(pattern)
@@ -138,5 +142,6 @@ data class Event(
     companion object {
         const val FRIENDLY_DATE_FORMAT = "ccc dd.MM.yyyy"
         const val FRIENDLY_TIME_FORMAT = "HH:mm"
+        const val FRIENDLY_DATE_TIME_FORMAT = "EEE dd MMMM HH:mm"
     }
 }
