@@ -1,6 +1,7 @@
 package co.livil.workapi.model
 
 import android.text.Html
+import android.util.Log
 import co.livil.workapi.utils.DateHelper
 import co.livil.workapi.utils.RfcDateTimeParser
 import com.squareup.moshi.Json
@@ -108,9 +109,14 @@ data class Event(
     }
 
     private fun formatDateTime(datetimeStr: String, pattern: String) : String {
-        val datetime = DateHelper.fromIsoDateString(datetimeStr)
-        val formatter = DateTimeFormatter.ofPattern(pattern)
-        return datetime.format(formatter)
+        return try {
+            val datetime = DateHelper.fromIsoDateString(datetimeStr)
+            val formatter = DateTimeFormatter.ofPattern(pattern)
+            datetime.format(formatter)
+        } catch (e: NullPointerException) {
+            Log.e("Event#formatDateTime", datetimeStr.toString())
+            datetimeStr
+        }
     }
 
     fun getPlaintextDescription(): String {
