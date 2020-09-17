@@ -15,6 +15,10 @@ class DateHelper {
             return endOfDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
         }
 
+        fun oneWeekAgoIso(): String {
+           return oneWeekAgo().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        }
+
         fun endOfDay(): LocalDateTime {
             val finalMinute: LocalTime = LocalTime.of(23, 59, 59)
             val today: LocalDate = LocalDate.now(ZoneId.of(ZoneId.systemDefault().toString()))
@@ -25,6 +29,10 @@ class DateHelper {
             val midnight: LocalTime = LocalTime.MIDNIGHT
             val today: LocalDate = LocalDate.now(ZoneId.of(ZoneId.systemDefault().toString()))
             return LocalDateTime.of(today, midnight)
+        }
+
+        fun oneWeekAgo(): LocalDateTime {
+            return startOfDay().minusDays(7)
         }
 
         fun fromLong(epochMs: Long): LocalDateTime {
