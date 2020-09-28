@@ -56,12 +56,11 @@ class EmailSerializerTest {
                     ],
                     "flags": {
                       "flagged": true,
-                      "seen": true
+                      "seen": true,
+                      "urgent": false 
                     },
                     "body": {
                       "segments": [
-                        "Test Subject",
-                        "Sender Name",
                         "Body part 1",
                         "Body part 2"
                       ],

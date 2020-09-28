@@ -31,7 +31,7 @@ class MixedItemSerializerTest {
               "address": "",
               "name": ""
             },
-            "subject": "",
+            "subject": "Test Email",
             "received_at": 0,
             "bcc_recipients": [],
             "flags": {
@@ -58,7 +58,7 @@ class MixedItemSerializerTest {
             "end_timezone": "",
             "updated_at": "",
             "start_timezone": "",
-            "name": "",
+            "name": "Test Event",
             "all_day": false,
             "description": "",
             "created_at": "",
@@ -71,11 +71,11 @@ class MixedItemSerializerTest {
     """.trimIndent()
     @Before
     fun setup() {
-        email = Email()
+        email = Email(subject = "Test Email")
         email.setRemoteId("abcdef12345")
         email.setIntegrationId("987654321abcdef")
 
-        event = Event()
+        event = Event(name = "Test Event")
         event.setRemoteId("fedcba54321")
         email.setIntegrationId("abcdef123456789")
     }
@@ -85,5 +85,17 @@ class MixedItemSerializerTest {
         val expected = JSONObject("""{ "data": [$emailJson, $eventJson] }""").toString(2)
         val serialized = JSONObject(MixedItemSerializer().serializeItems(listOf(email, event))).toString(2)
         Assert.assertEquals(expected, serialized)
+    }
+
+    @Test
+    fun test_deserializeMultipleMixedItems() {
+        val payload = """{"data": [$emailJson, $eventJson]}"""
+        val deserialized = MixedItemSerializer().deserializeItems(payload)
+
+        Assert.assertTrue(deserialized[0] is Email)
+        Assert.assertEquals("Test Email", (deserialized[0] as Email).subject)
+
+        Assert.assertTrue(deserialized[1] is Event)
+        Assert.assertEquals("Test Event", (deserialized[1] as Event).name)
     }
 }

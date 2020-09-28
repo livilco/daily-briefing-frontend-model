@@ -19,4 +19,8 @@ class MixedItemSerializer: BaseSerializer(typeClass = Resource::class.java) {
             .add(Email::class.java)
             .add(Event::class.java)
     }
+
+    fun deserializeItems(body: String): List<Resource> {
+        return adapter().fromJson(body)!!.asArrayDocument()
+    }
 }
