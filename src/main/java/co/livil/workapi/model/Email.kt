@@ -13,7 +13,7 @@ import moe.banana.jsonapi2.JsonApi
 data class Email(
     @field:Json(name = "thread_id") var threadId: String? = "",
     @field:Json(name = "subject") var subject: String = "",
-    @field:Json(name = "sender") var sender: Recipient = Recipient(),
+    @field:Json(name = "sender") var sender: Recipient? = Recipient(),
     @field:Json(name = "to_recipients") var toRecipients: MutableList<Recipient> = mutableListOf(),
     @field:Json(name = "cc_recipients") var ccRecipients: MutableList<Recipient> = mutableListOf(),
     @field:Json(name = "bcc_recipients") var bccRecipients: MutableList<Recipient> = mutableListOf(),
@@ -88,10 +88,12 @@ data class Email(
     }
 
     fun getSenderLabel(): String {
-        return if (sender.name.isNotEmpty()) {
-            sender.name
+        if (sender == null) { return "" }
+
+        return if (sender!!.name.isNotEmpty()) {
+            sender!!.name
         } else {
-            sender.address
+            sender!!.address
         }
     }
 
@@ -106,7 +108,8 @@ data class Email(
     }
 
     override fun matchableContactStrings(): List<String> {
-        return listOf(sender.address, sender.name)
+        if (sender == null) { return emptyList() }
+        return listOf(sender!!.address, sender!!.name)
     }
 
     override fun matchableKeywordStrings(): List<String> {
