@@ -48,5 +48,10 @@ class DateHelper {
             val out = Date.from(datetime.atZone(ZoneId.systemDefault()).toInstant());
             return PrettyTime().format(out)
         }
+
+        fun prettyDate(datetimeLong: Long): String {
+            val datetime = fromLong(datetimeLong)
+            return prettyDate(datetime)
+        }
     }
 }
