@@ -11,7 +11,10 @@ class ItemIdListSerializer {
     }
 
     fun deserializePayload(jsonPayload: String): ItemIdList? {
-        return adapter().fromJson(jsonPayload)
+        val fixedPayload = jsonPayload
+            .replace("emails:", """"emails":""")
+            .replace("events:", """"events":""")
+        return adapter().fromJson(fixedPayload)
     }
 
     private fun adapter(): JsonAdapter<ItemIdList> {
