@@ -1,5 +1,6 @@
 package co.livil.workapi.serializers
 
+import co.livil.workapi.model.Email
 import co.livil.workapi.model.Integration
 import moe.banana.jsonapi2.ArrayDocument
 import moe.banana.jsonapi2.ObjectDocument
@@ -13,6 +14,12 @@ class IntegrationSerializer: BaseSerializer(typeClass = Integration::class.java)
 
     fun deserializeIntegration(body: String): ObjectDocument<Integration> {
         return adapter().fromJson(body)!!.asObjectDocument()
+    }
+
+    fun serializeIntegrations(integrations: List<Integration>): String {
+        val document: ArrayDocument<Integration> = ArrayDocument()
+        document.addAll(integrations)
+        return serializeDocument(document)
     }
 
     fun deserializeIntegrations(body: String): ArrayDocument<Integration> {
