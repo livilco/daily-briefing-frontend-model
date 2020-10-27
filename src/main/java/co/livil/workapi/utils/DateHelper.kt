@@ -44,14 +44,14 @@ class DateHelper {
             return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
         }
 
-        fun prettyDate(datetime: LocalDateTime): String {
+        fun prettyDate(datetime: LocalDateTime, reference: Date? = null): String {
             val out = Date.from(datetime.atZone(ZoneId.systemDefault()).toInstant());
-            return PrettyTime().format(out)
+            return PrettyTime(reference).format(out)
         }
 
-        fun prettyDate(datetimeLong: Long): String {
+        fun prettyDate(datetimeLong: Long, reference: Date? = null): String {
             val datetime = fromLong(datetimeLong)
-            return prettyDate(datetime)
+            return prettyDate(datetime, reference)
         }
     }
 }
