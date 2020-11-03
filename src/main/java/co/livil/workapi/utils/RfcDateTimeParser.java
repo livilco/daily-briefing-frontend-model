@@ -30,6 +30,11 @@ public class RfcDateTimeParser {
     public final static String[] RFC_2822 = {
             "EEE, dd MMM yyyy HH:mm:ss zzz"
     };
+    public final static String[] ISO_LEGACY = {
+            "yyyy-MM-dd'T'HH:mm:ssXXX",
+            "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+    };
+
 
     public static Date parseDateString(String timestamp, String[] rfcPatterns) {
         if (timestamp == null || timestamp.isEmpty()) {
@@ -62,6 +67,7 @@ public class RfcDateTimeParser {
         allRfcPatterns.addAll(Arrays.asList(RFC_822));
         allRfcPatterns.addAll(Arrays.asList(RFC_2822));
         allRfcPatterns.addAll(Arrays.asList(RFC_3339));
+        allRfcPatterns.addAll(Arrays.asList(ISO_LEGACY));
         return parseDateString(timestamp, allRfcPatterns.toArray(new String[allRfcPatterns.size()]));
     }
 }

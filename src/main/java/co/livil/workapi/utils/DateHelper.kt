@@ -1,22 +1,26 @@
 package co.livil.workapi.utils
 
+import android.util.Log
 import org.ocpsoft.prettytime.PrettyTime
 import java.time.*
+import java.time.chrono.IsoChronology
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.time.format.ResolverStyle
 import java.util.*
 
 class DateHelper {
     companion object {
         fun startOfDayIso(): String {
-            return startOfDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            return startOfDay().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         }
 
         fun endOfDayIso(): String {
-            return endOfDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            return endOfDay().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         }
 
         fun oneWeekAgoIso(): String {
-           return oneWeekAgo().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+           return oneWeekAgo().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         }
 
         fun endOfDay(): LocalDateTime {
@@ -41,11 +45,17 @@ class DateHelper {
 
         fun fromIsoDateString(dateString: String): LocalDateTime {
             val date = RfcDateTimeParser.parseDateString(dateString)
-            return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
+            try {
+                return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
+            } catch (exception: Exception) {
+                Log.e(TAG, "Could not parse date string: $dateString")
+                throw exception
+            }
         }
 
         fun toIsoDateString(localDateTime: LocalDateTime): String {
-            return localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            val zonedDateTime = localDateTime.atZone(ZoneId.systemDefault())
+            return zonedDateTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         }
 
         fun prettyDate(datetime: LocalDateTime, reference: Date? = null): String {
@@ -57,5 +67,7 @@ class DateHelper {
             val datetime = fromLong(datetimeLong)
             return prettyDate(datetime, reference)
         }
+
+        const val TAG = "DateHelper"
     }
 }
