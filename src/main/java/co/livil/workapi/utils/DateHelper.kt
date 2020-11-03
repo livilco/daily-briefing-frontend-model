@@ -44,6 +44,10 @@ class DateHelper {
             return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
         }
 
+        fun toIsoDateString(localDateTime: LocalDateTime): String {
+            return localDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        }
+
         fun prettyDate(datetime: LocalDateTime, reference: Date? = null): String {
             val out = Date.from(datetime.atZone(ZoneId.systemDefault()).toInstant());
             return PrettyTime(reference).format(out)
