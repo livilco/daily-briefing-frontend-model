@@ -3,18 +3,13 @@ package co.livil.workapi.model
 import android.text.Html
 import android.util.Log
 import co.livil.workapi.utils.DateHelper
-import co.livil.workapi.utils.RfcDateTimeParser
 import com.squareup.moshi.Json
 import moe.banana.jsonapi2.JsonApi
 import org.dmfs.rfc5545.DateTime
 import org.dmfs.rfc5545.recur.RecurrenceRule
-import org.dmfs.rfc5545.recurrenceset.RecurrenceList
-import org.dmfs.rfc5545.recurrenceset.RecurrenceRuleAdapter
-import org.dmfs.rfc5545.recurrenceset.RecurrenceSet
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatterBuilder
 import java.util.regex.Pattern
 
 /**

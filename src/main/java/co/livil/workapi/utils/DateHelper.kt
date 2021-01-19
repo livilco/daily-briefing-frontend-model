@@ -1,16 +1,18 @@
 package co.livil.workapi.utils
 
 import android.util.Log
+import co.livil.workapi.utils.RfcDateTimeParser
 import org.ocpsoft.prettytime.PrettyTime
 import java.time.*
-import java.time.chrono.IsoChronology
 import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatterBuilder
-import java.time.format.ResolverStyle
 import java.util.*
 
 class DateHelper {
     companion object {
+        fun nowIso(): String {
+            return now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+        }
+
         fun startOfDayIso(): String {
             return startOfDay().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         }
@@ -21,6 +23,10 @@ class DateHelper {
 
         fun oneWeekAgoIso(): String {
            return oneWeekAgo().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+        }
+
+        fun now(): LocalDateTime {
+            return LocalDateTime.now(ZoneId.of(ZoneId.systemDefault().toString()))
         }
 
         fun endOfDay(): LocalDateTime {
