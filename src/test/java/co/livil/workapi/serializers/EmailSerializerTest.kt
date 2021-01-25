@@ -157,7 +157,7 @@ class EmailSerializerTest {
         email.setRemoteId("abcdef12345")
         email.setIntegrationId("987654321abcdef")
 
-        val mailbox = Mailbox(name = "Inbox")
+        val mailbox = Mailbox(name = "Inbox", mailboxType = "inbox")
         mailbox.setRemoteId("inbox")
         mailbox.setIntegrationId("abc123")
         email.mailboxes?.add(mailbox)

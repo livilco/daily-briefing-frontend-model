@@ -18,7 +18,7 @@ open class BaseSerializer(
         return moshi().adapter(Document::class.java)
     }
 
-    protected fun moshi(): Moshi {
+    protected open fun moshi(): Moshi {
         return Moshi.Builder()
             .add(adapterFactory().build())
             .add(KotlinJsonAdapterFactory())
