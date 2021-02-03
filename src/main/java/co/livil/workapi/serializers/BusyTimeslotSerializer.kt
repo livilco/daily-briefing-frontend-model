@@ -1,17 +1,20 @@
 package co.livil.workapi.serializers
 
 import co.livil.workapi.model.BusyTimeslot
-import co.livil.workapi.model.EmailAttachment
 import co.livil.workapi.model.Event
-import co.livil.workapi.model.Mailbox
 import moe.banana.jsonapi2.ArrayDocument
 import moe.banana.jsonapi2.ObjectDocument
 import moe.banana.jsonapi2.ResourceAdapterFactory
 
 class BusyTimeslotSerializer : BaseSerializer(typeClass = BusyTimeslot::class.java) {
-    fun serializeBusyTimeslot(busyTimeslot: BusyTimeslot): String {
-        val document: ObjectDocument<BusyTimeslot> = ObjectDocument()
-        document.set(busyTimeslot)
+    fun serializeBusyTimeslot(busyTimeslot: BusyTimeslot, events: List<Event>? = null): String {
+        var document: ObjectDocument<BusyTimeslot>? = busyTimeslot.document?.asObjectDocument()
+
+        if (document == null) {
+            document = ObjectDocument()
+            document.set(busyTimeslot)
+        }
+
         return adapter().toJson(document)
     }
 
@@ -21,6 +24,11 @@ class BusyTimeslotSerializer : BaseSerializer(typeClass = BusyTimeslot::class.ja
 
     fun serializeBusyTimeslots(busyTimeslots: List<BusyTimeslot>): String {
         val document: ArrayDocument<BusyTimeslot> = ArrayDocument()
+        busyTimeslots.forEach { busyTimeslot ->
+            busyTimeslot.document?.let {
+                document.included.addAll(it.included)
+            }
+        }
         document.addAll(busyTimeslots)
         return serializeDocument(document)
     }
