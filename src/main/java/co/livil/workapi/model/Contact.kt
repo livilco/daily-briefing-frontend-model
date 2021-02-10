@@ -16,7 +16,12 @@ data class Contact (
     @field:Json(name = "picture_url") var pictureUrl: String = "",
     @field:Json(name = "created_at") var createdAt: Int = 0,
     @field:Json(name = "updated_at") var updatedAt: Int = 0
-) : WorkApiResource()
+) : WorkApiResource() {
+    val displayName: String
+        get() {
+            return listOf(firstName, middleName, lastName).joinToString(" ")
+        }
+}
 
 
 @JsonClass(generateAdapter = true)
