@@ -9,5 +9,7 @@ data class Integration (
     @field:Json(name = "provider") var provider: String = "",
     @field:Json(name = "provider_id") var providerId: String? = null,
     @field:Json(name = "media_type") var mediaType: String = "",
-    @field:Json(name = "default") var default: Boolean = false
+    @field:Json(name = "default") var default: Boolean = false,
+    @field:Json(name = "label") var label: String = "",
+    @field:Json(name = "context") var context: String = ""
 ) : Resource()
