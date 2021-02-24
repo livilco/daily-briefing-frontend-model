@@ -103,6 +103,10 @@ data class Event(
         return formatDateTime(startDateTime, FRIENDLY_DATE_TIME_FORMAT)
     }
 
+    fun getEndDateTimeLabel(): String {
+        return formatDateTime(endDateTime, FRIENDLY_DATE_TIME_FORMAT)
+    }
+
     private fun formatDateTime(datetimeStr: String, pattern: String) : String {
         return try {
             val datetime = DateHelper.fromIsoDateString(datetimeStr)
@@ -131,7 +135,7 @@ data class Event(
     }
 
     fun getAttendeesContent(): String {
-        return if (attendees?.isNotEmpty()!!) {
+        return if (attendees?.isNotEmpty() == true) {
             attendees!!.joinToString("\r\n") {
                 it.getLabel()
             }
