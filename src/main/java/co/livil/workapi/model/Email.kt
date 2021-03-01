@@ -26,11 +26,7 @@ data class Email(
     @field:Json(name = "email_attachments") var emailAttachments: HasMany<EmailAttachment>? = HasMany()
 ) : WorkApiResource(), IMatchable {
     fun subjectLabel(): String {
-        return if (flags.urgent) {
-            "[URGENT] $subject"
-        } else {
-            subject
-        }
+        return subject
     }
 
     fun processBodyContent() {
@@ -113,17 +109,15 @@ data class Email(
     }
 
     override fun matchableKeywordStrings(): List<String> {
-        return body.segments + listOf(subject)
+        return (body.segments ?: mutableListOf()) + listOf(subject)
     }
 
     override fun flagUrgent(isUrgent: Boolean) {
-        flags.urgent = isUrgent
     }
 }
 
 @JsonClass(generateAdapter = true)
 data class Flags(
-    @Json(name = "urgent") var urgent: Boolean = false,
     @Json(name = "seen") var seen: Boolean = false,
     @Json(name = "flagged") var flagged: Boolean = false
 )
