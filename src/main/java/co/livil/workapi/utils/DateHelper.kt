@@ -14,11 +14,11 @@ class DateHelper {
         }
 
         fun startOfDayIso(): String {
-            return startOfDay().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+            return startOfDayZoned().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         }
 
         fun endOfDayIso(): String {
-            return endOfDay().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+            return endOfDayZoned().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         }
 
         fun oneWeekAgoIso(): String {
@@ -35,11 +35,32 @@ class DateHelper {
             return LocalDateTime.of(today, finalMinute)
         }
 
+        fun endOfDayZoned(): ZonedDateTime {
+            val finalMinute: LocalTime = LocalTime.of(23, 59, 59)
+            val today: LocalDate = LocalDate.now(ZoneId.of(ZoneId.systemDefault().toString()))
+            return ZonedDateTime.of(
+                today,
+                finalMinute,
+                ZoneId.systemDefault()
+            )
+        }
+
         fun startOfDay(): LocalDateTime {
             val midnight: LocalTime = LocalTime.MIDNIGHT
             val today: LocalDate = LocalDate.now(ZoneId.of(ZoneId.systemDefault().toString()))
             return LocalDateTime.of(today, midnight)
         }
+
+        fun startOfDayZoned(): ZonedDateTime {
+            val midnight: LocalTime = LocalTime.MIDNIGHT
+            val today: LocalDate = LocalDate.now(ZoneId.of(ZoneId.systemDefault().toString()))
+            return ZonedDateTime.of(
+                today,
+                midnight,
+                ZoneId.systemDefault()
+            )
+        }
+
 
         fun oneWeekAgo(): LocalDateTime {
             return startOfDay().minusDays(7)
@@ -61,6 +82,10 @@ class DateHelper {
 
         fun toIsoDateString(localDateTime: LocalDateTime): String {
             val zonedDateTime = localDateTime.atZone(ZoneId.systemDefault())
+            return zonedDateTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+        }
+
+        fun toIsoDateString(zonedDateTime: ZonedDateTime): String {
             return zonedDateTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         }
 
