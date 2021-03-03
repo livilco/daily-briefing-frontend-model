@@ -14,7 +14,7 @@ data class Attendee (
     @Json(name = "optional") var optional: Boolean = false,
     @Json(name = "response_status") var responseStatus: String = "",
     @Json(name = "comment") var comment: String = "",
-    @Json(name = "additionalGuests") var additionalGuests: Int = 0
+    @Json(name = "additional_guests") var additionalGuests: Int = 0
 ) {
     fun getLabel(): String {
         var output = if (displayName.isNotEmpty()) {

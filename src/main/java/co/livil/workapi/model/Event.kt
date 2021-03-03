@@ -26,8 +26,8 @@ data class Event(
     @field:Json(name = "end_timezone") var endTimezone: String = "",
     @field:Json(name = "all_day") var allDay: Boolean = false,
     @field:Json(name = "recurrence") var recurrence: String = "",
-    @field:Json(name = "created_at") val createdAt: String = "",
-    @field:Json(name = "updated_at") val updatedAt: String = "",
+    @field:Json(name = "created_at") val createdAt: Int = 0,
+    @field:Json(name = "updated_at") val updatedAt: Int = 0,
     @field:Json(name = "attendees") var attendees: List<Attendee>? = null
 ) : WorkApiResource() {
 
