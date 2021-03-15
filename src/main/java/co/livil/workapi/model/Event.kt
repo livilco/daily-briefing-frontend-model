@@ -28,6 +28,7 @@ data class Event(
     @field:Json(name = "recurrence") var recurrence: String = "",
     @field:Json(name = "created_at") val createdAt: Int = 0,
     @field:Json(name = "updated_at") val updatedAt: Int = 0,
+    @field:Json(name = "calendar_id") val calendarId: String = "primary",
     @field:Json(name = "attendees") var attendees: List<Attendee>? = null
 ) : WorkApiResource() {
 
