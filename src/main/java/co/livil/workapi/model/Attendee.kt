@@ -12,7 +12,7 @@ data class Attendee (
     @Json(name = "self") var self: Boolean = false,
     @Json(name = "resource") var resource: Boolean = false,
     @Json(name = "optional") var optional: Boolean = false,
-    @Json(name = "response_status") var responseStatus: String = "",
+    @Json(name = "response_status") var responseStatus: String = "needsAction",
     @Json(name = "comment") var comment: String = "",
     @Json(name = "additional_guests") var additionalGuests: Int = 0
 ) {
