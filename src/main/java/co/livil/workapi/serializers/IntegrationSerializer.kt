@@ -1,13 +1,19 @@
 package co.livil.workapi.serializers
 
-import co.livil.workapi.model.Email
 import co.livil.workapi.model.Integration
+import co.livil.workapi.model.InternalIntegration
 import moe.banana.jsonapi2.ArrayDocument
 import moe.banana.jsonapi2.ObjectDocument
 
 class IntegrationSerializer: BaseSerializer(typeClass = Integration::class.java) {
     fun serializeIntegration(integration: Integration): String {
         val document: ObjectDocument<Integration> = ObjectDocument()
+        document.set(integration)
+        return adapter().toJson(document)
+    }
+
+    fun serializeIntegration(integration: InternalIntegration): String {
+        val document: ObjectDocument<InternalIntegration> = ObjectDocument()
         document.set(integration)
         return adapter().toJson(document)
     }
