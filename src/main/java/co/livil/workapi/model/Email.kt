@@ -39,6 +39,12 @@ data class Email(
         }
     }
 
+    fun prepareBodySegmentsForSend() {
+        val joinedContent = body.segments.joinToString("\n")
+        body.plainText = mutableListOf(joinedContent)
+        body.segments = mutableListOf()
+    }
+
     private fun hasPlaintextContent(): Boolean {
         val plainTextEmpty= body.plainText?.isNotEmpty()
         return plainTextEmpty ?: false
