@@ -84,6 +84,14 @@ data class Event(
         return RecurrenceRule(ruleStr)
     }
 
+    fun sanitizeAllDayDateTimes() {
+        if (allDay) {
+            val now = DateHelper.startOfDayIso()
+            startDateTime = "${startDateTime}${now.substring(10)}"
+            endDateTime = "${endDateTime}${now.substring(10)}"
+        }
+    }
+
     fun getStartDateLabel(): String {
         return formatDateTime(startDateTime, FRIENDLY_DATE_FORMAT)
     }
@@ -101,11 +109,19 @@ data class Event(
     }
 
     fun getStartDateTimeLabel(): String {
-        return formatDateTime(startDateTime, FRIENDLY_DATE_TIME_FORMAT)
+        return if (allDay) {
+            startDateTime.substring(0, 10)
+        } else {
+            formatDateTime(startDateTime, FRIENDLY_DATE_TIME_FORMAT)
+        }
     }
 
     fun getEndDateTimeLabel(): String {
-        return formatDateTime(endDateTime, FRIENDLY_DATE_TIME_FORMAT)
+        return if (allDay) {
+            endDateTime.substring(0, 10)
+        } else {
+            formatDateTime(endDateTime, FRIENDLY_DATE_TIME_FORMAT)
+        }
     }
 
     private fun formatDateTime(datetimeStr: String, pattern: String) : String {

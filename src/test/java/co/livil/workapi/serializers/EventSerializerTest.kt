@@ -20,8 +20,6 @@ class EventSerializerTest {
         endTimezone = "UTC",
         allDay = true,
         recurrence = "RRULE:FREQ=WEEKLY;",
-        createdAt = "2020-07-27T05:00:00Z",
-        updatedAt = "2020-07-27T05:00:00Z",
         attendees = listOf(
             Attendee(
                 displayName = "Test Attendee",
@@ -87,10 +85,20 @@ class EventSerializerTest {
     }
 
     @Test
-    fun test_deserializeMultipleEmails() {
+    fun test_deserializeMultipleEvents() {
         val input = JSONObject("""{ "data": [$jsonEvent] }""").toString(2)
         val document = EventSerializer().deserializeEvents(input)
         val firstDeserializedEmail = document.get(0)
         assertEquals(event, firstDeserializedEmail)
+    }
+
+    @Test
+    fun test_serializeAllDayEvent() {
+        val event = Event(allDay = true, startDateTime = "2021-04-21")
+        val serialized = JSONObject(EventSerializer().serializeEvent(event)).toString(2)
+        val document = EventSerializer().deserializeEvent(serialized)
+        val deserializedEvent = document.get()
+
+        assertEquals(deserializedEvent.startDateTime, "2021-04-21T00:00:00+02:00")
     }
 }

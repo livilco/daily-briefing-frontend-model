@@ -26,6 +26,11 @@ class BusyTimeslotSerializer : BaseSerializer(typeClass = BusyTimeslot::class.ja
         val document: ArrayDocument<BusyTimeslot> = ArrayDocument()
         busyTimeslots.forEach { busyTimeslot ->
             busyTimeslot.document?.let {
+                it.included.forEach {
+                    try {
+                        (it as? Event)?.sanitizeAllDayDateTimes()
+                    } catch (e: Exception) { }
+                }
                 document.included.addAll(it.included)
             }
         }
