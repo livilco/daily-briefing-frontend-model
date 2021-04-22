@@ -93,7 +93,7 @@ data class Email(
         if (sender == null) { return "" }
 
         return if (sender!!.name.isNotEmpty()) {
-            sender!!.name
+            "${sender!!.name} <${sender!!.address}>"
         } else {
             sender!!.address
         }
@@ -102,7 +102,7 @@ data class Email(
     private fun recipientsLabel(recipients: List<Recipient>): String {
         return recipients.joinToString(", ") {
             if (it.name.isNotEmpty()) {
-                it.name
+                "${it.name} <${it.address}>"
             } else {
                 it.address
             }

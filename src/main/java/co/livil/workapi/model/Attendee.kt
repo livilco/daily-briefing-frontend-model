@@ -18,7 +18,7 @@ data class Attendee (
 ) {
     fun getLabel(): String {
         var output = if (displayName.isNotEmpty()) {
-            displayName
+            "$displayName <$emailAddress>"
         } else {
             emailAddress
         }
