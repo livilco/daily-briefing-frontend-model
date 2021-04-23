@@ -32,11 +32,16 @@ data class Email(
     fun processBodyContent() {
         if (hasPlaintextContent()) {
             splitContent(body.plainText!!)?.let { body.segments.addAll(it) }
+
         } else if (hasHtmlContent()) {
             strippedHtmlContent()?.let {
                 splitContent(it)?.let { it1 -> body.segments.addAll(it1) }
             }
+
         }
+
+        body.plainText?.clear()
+        body.html?.clear()
     }
 
     fun prepareBodySegmentsForSend() {
