@@ -6,5 +6,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Metadata (
     @Json(name = "total_results") val totalResults: Int = 0,
-    @Json(name = "next_page_token") val nextPageToken: String = ""
+    @Json(name = "next_page") val nextPageToken: String = ""
 )
