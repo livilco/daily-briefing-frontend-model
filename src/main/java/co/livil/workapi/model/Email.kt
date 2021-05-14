@@ -1,10 +1,12 @@
 package co.livil.workapi.model
 
 import android.text.Html
+import androidx.core.text.trimmedLength
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import moe.banana.jsonapi2.HasMany
 import moe.banana.jsonapi2.JsonApi
+import java.lang.Integer.min
 
 /**
  * @see EmailSerializerTest for sample JSON
@@ -72,7 +74,12 @@ data class Email(
     private fun splitContent(content: List<String>): MutableList<String>? {
         val processed = mutableListOf<String>()
         content.forEach {
-            it.split("\r\n\r\n", "\n\n").forEach { str -> processed.add(str.trim()) }
+            it
+                .substring(0, min(it.length-1, 10000))
+                .split("\r\n\r\n", "\n\n")
+                .forEach { str ->
+                    processed.add(str.trim())
+                }
         }
 
         return processed.filter { it.isNotEmpty() }.toMutableList()
