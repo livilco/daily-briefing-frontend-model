@@ -27,6 +27,10 @@ data class Email(
     @field:Json(name = "mailboxes") var mailboxes: HasMany<Mailbox>? = HasMany(),
     @field:Json(name = "email_attachments") var emailAttachments: HasMany<EmailAttachment>? = HasMany()
 ) : WorkApiResource(), IMatchable {
+    val recipientCount: Int
+        get() {
+            return toRecipients.size + ccRecipients.size + bccRecipients.size
+        }
     fun subjectLabel(): String {
         return subject
     }

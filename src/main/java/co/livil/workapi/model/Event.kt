@@ -29,7 +29,8 @@ data class Event(
     @field:Json(name = "created_at") val createdAt: Int = 0,
     @field:Json(name = "updated_at") val updatedAt: Int = 0,
     @field:Json(name = "calendar_id") val calendarId: String = "primary",
-    @field:Json(name = "attendees") var attendees: List<Attendee>? = null
+    @field:Json(name = "attendees") var attendees: MutableList<Attendee>? = null,
+    @field:Json(name = "conference_link") var conferenceLink: String? = ""
 ) : WorkApiResource() {
 
     /**
@@ -125,14 +126,7 @@ data class Event(
     }
 
     private fun formatDateTime(datetimeStr: String, pattern: String) : String {
-        return try {
-            val datetime = DateHelper.fromIsoDateString(datetimeStr)
-            val formatter = DateTimeFormatter.ofPattern(pattern)
-            datetime.format(formatter)
-        } catch (e: NullPointerException) {
-            Log.e("Event#formatDateTime", datetimeStr.toString())
-            datetimeStr
-        }
+        return DateHelper.formatFriendlyDateTime(datetimeStr, pattern)
     }
 
     fun getPlaintextDescription(): String {

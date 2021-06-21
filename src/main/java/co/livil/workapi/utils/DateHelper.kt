@@ -99,6 +99,17 @@ class DateHelper {
             return prettyDate(datetime, reference)
         }
 
+        fun formatFriendlyDateTime(datetimeStr: String, pattern: String) : String {
+            return try {
+                val datetime = DateHelper.fromIsoDateString(datetimeStr)
+                val formatter = DateTimeFormatter.ofPattern(pattern)
+                datetime.format(formatter)
+            } catch (e: NullPointerException) {
+                Log.e("DateHepler#formatDateTime", datetimeStr.toString())
+                datetimeStr
+            }
+        }
+
         const val TAG = "DateHelper"
     }
 }
