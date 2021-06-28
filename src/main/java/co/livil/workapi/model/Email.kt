@@ -80,7 +80,7 @@ data class Email(
         content.forEach {
             it
                 .substring(0, min(it.length-1, 10000))
-                .split("\r\n\r\n", "\n\n")
+                .split("\n\n|\r\n\r\n|\n.\n".toRegex())
                 .forEach { str ->
                     processed.add(str.trim())
                 }
