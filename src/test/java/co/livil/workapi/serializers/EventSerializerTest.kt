@@ -20,7 +20,7 @@ class EventSerializerTest {
         endTimezone = "UTC",
         allDay = true,
         recurrence = "RRULE:FREQ=WEEKLY;",
-        attendees = listOf(
+        attendees = mutableListOf(
             Attendee(
                 displayName = "Test Attendee",
                 emailAddress = "test@livil.co"

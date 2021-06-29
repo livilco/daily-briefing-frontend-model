@@ -10,6 +10,8 @@ class IntegrationSerializer: BaseSerializer(typeClass = Integration::class.java)
         val document: ObjectDocument<Integration> = ObjectDocument()
         document.set(integration)
         return adapter().toJson(document)
+            .replace(""""auth_expires_at":\d+,""", "")
+            .replace(""","auth_expires_at":\d+""", "")
     }
 
     fun serializeIntegration(integration: InternalIntegration): String {
