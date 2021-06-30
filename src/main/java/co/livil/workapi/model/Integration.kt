@@ -1,8 +1,10 @@
 package co.livil.workapi.model
 
+import co.livil.workapi.utils.DateHelper
 import com.squareup.moshi.Json
 import moe.banana.jsonapi2.JsonApi
 import moe.banana.jsonapi2.Resource
+import java.time.ZoneOffset
 
 
 @JsonApi(type = "integration")
@@ -22,6 +24,13 @@ data class Integration (
     @field:Json(name = "label") var label: String = "",
     @field:Json(name = "context") var context: String = ""
 ) : Resource() {
+    val isExpired: Boolean
+        get() {
+            if (authExpiresAt == null || authExpiresAt == 0) return false
+
+            return authExpiresAt!! < System.currentTimeMillis() / 1000
+        }
+
     fun toInternal(): InternalIntegration {
         return InternalIntegration(
             provider = provider,
